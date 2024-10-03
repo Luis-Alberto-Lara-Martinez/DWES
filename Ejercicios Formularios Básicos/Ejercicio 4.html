@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4</title>
+</head>
+<body>
+    <form action="Ejercicio 4.php" method="post">
+        <p>Escriba la cantidad de dinero (valores entre 0 y 1.000.000) y elija la divisa:</p>
+        <label for="cantidad">Convertir en Euros: <input type="number" name="cantidad" id="cantidad" min="0" max="1000000"></label>
+        <br/><br/>
+        <input type="radio" name="moneda" id="dolares" value="dolares"><label for="dolares">Dolares USA</label>
+        <input type="radio" name="moneda" id="pesos" value="pesos"><label for="pesos">Pesos</label>
+        <input type="radio" name="moneda" id="yenes" value="yenes"><label for="yenes">Yenes</label>
+        <input type="radio" name="moneda" id="pesetas" value="pesetas"><label for="pesetas">Pesetas</label>
+        <br/><br/>
+        <input type="submit" value="Enviar">
+        <input type="reset" value="Borrar">
+        <br/>
+        <p><b>NOTA: </b>La cotización de las monedas puede no estar actualizada.</p>
+    </form>
+</body>
+</html>
