@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+    <style>
+        h1 {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ORDENAR MATRIZ (FORMULARIO)</h1>
+    <p>Indique el rango del número de valores y el rango de los valores y mostraré un número aleatorio de valores
+        aleatorios en los rangos indicados.</p>
+        <p>Indique si quiere los valores ordenados en orden directo o inverso.</p>
+    <form action="Ejercicio 5.php" method="post">
+        <label for="rangoMin">Número mínimo de valores: <input type="number" name="rangoMin" id="rangoMin" min="1"></label>
+        <br/>
+        <label for="rangoMax">Número máximo de valores: <input type="number" name="rangoMax" id="rangoMax"></label>
+        <br/>
+        <label for="valorMin">Valor mínimo: <input type="number" name="valorMin" id="valorMin"></label>
+        <br/>
+        <label for="valorMax">Valor máximo: <input type="number" name="valorMax" id="valorMax"></label>
+        <br/>
+        <label>Ordenar por orden ...</label>
+        <input type="radio" name="orden" value="directo">
+        <label>Directo</label>
+        <input type="radio" name="orden" value="inverso">
+        <label>Inverso</label>
+        <br/>
+        <br/>
+        <input type="submit" value="Mostrar">
+        <input type="reset" value="Borrar">
+    </form>
+</body>
+
+</html>
