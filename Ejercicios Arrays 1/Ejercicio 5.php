@@ -3,14 +3,8 @@ $rangoMin = $_POST["rangoMin"];
 $rangoMax = $_POST["rangoMax"];
 $valorMin = $_POST["valorMin"];
 $valorMax = $_POST["valorMax"];
-if (
-    $rangoMax < $rangoMin || $valorMax < $valorMin || !($_POST["rangoMin"]) || !($_POST["rangoMax"]) ||
-    !($_POST["valorMin"]) || !($_POST["valorMax"])
-) {
+if ($rangoMax < $rangoMin || $valorMax < $valorMin || !($_POST["rangoMin"]) || !($_POST["rangoMax"]) || !($_POST["valorMin"]) || !($_POST["valorMax"])) {
     print ("<p>Valores inválidos </p>");
-    print ("<form action='Ejercicio 5.html' method='post'>");
-    print ("<input type='submit' value='Volver al formulario'>");
-    print ("</form>");
 } else {
     $array = [];
     $rango = rand($rangoMin, $rangoMax);
@@ -24,8 +18,8 @@ if (
     print ("<pre>");
     print_r($array);
     print ("</pre>");
-    print ("<form action='Ejercicio 5.html' method='post'>");
-    print ("<input type='submit' value='Volver al formulario'>");
-    print ("</form>");
 }
+print ("<form action='Ejercicio 5.html' method='post'>");
+print ("<input type='submit' value='Volver al formulario'>");
+print ("</form>");
 ?>

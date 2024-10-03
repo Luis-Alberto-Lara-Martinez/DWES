@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio sin numero</title>
+    <title>Ejercicio 6</title>
     <style>
         h1 {
             text-align: center;
@@ -13,11 +13,9 @@
 </head>
 
 <body>
-    <h1>ORDENAR MATRIZ (FORMULARIO)</h1>
     <p>Indique el rango del número de valores y el rango de los valores y mostraré un número aleatorio de valores
         aleatorios en los rangos indicados.</p>
-    <p>Indique si quiere los valores ordenados en orden directo o inverso.</p>
-    <form action="Ejercicio sin numero.php" method="post">
+    <form action="Ejercicio 6.php" method="post">
         <label for="rangoMin">Número mínimo de valores:
             <input type="number" name="rangoMin" id="rangoMin" min="1">
         </label>
@@ -34,12 +32,8 @@
             <input type="number" name="valorMax" id="valorMax">
         </label>
         <br />
-        <label>Ordenar por orden ...</label>
-        <label for="directo">
-            <input type="radio" name="orden" id="directo" value="directo"> Directo
-        </label>
-        <label for="inverso">
-            <input type="radio" name="orden" id="inverso" value="inverso"> Inverso
+        <label for="valorEliminar">Valor a eliminar:
+            <input type="number" name="valorEliminar" id="valorEliminar">
         </label>
         <br />
         <br />

@@ -3,10 +3,10 @@ $rangoMin = $_POST["rangoMin"];
 $rangoMax = $_POST["rangoMax"];
 $valorMin = $_POST["valorMin"];
 $valorMax = $_POST["valorMax"];
-if ($rangoMax < $rangoMin || $valorMax < $valorMin || !($_POST["rangoMin"]) || !($_POST["rangoMax"]) || !($_POST["valorMin"]) || !($_POST["valorMax"])) {
+$valorEliminar = $_POST["valorEliminar"];
+if ($rangoMax < $rangoMin || $valorMax < $valorMin || !($_POST["rangoMin"]) || !($_POST["rangoMax"]) || !($_POST["valorMin"]) || !($_POST["valorMax"]) || !($_POST["valorEliminar"])) {
     print ("<p>Valores inválidos </p>");
 } else {
-    $orden = $_POST["orden"] ?? 0;
     $array = [];
     $rango = rand($rangoMin, $rangoMax);
     print ("<h2>Datos iniciales</h2>");
@@ -19,22 +19,25 @@ if ($rangoMax < $rangoMin || $valorMax < $valorMin || !($_POST["rangoMin"]) || !
     print ("<pre>");
     print_r($array);
     print ("</pre>");
-    print ("<h2>Matriz ordenada de valores</h2>");
-    if ($orden == "directo") {
-        sort($array);
-        print ("<pre>");
-        print_r($array);
-        print ("</pre>");
-    } elseif ($orden == "inverso") {
-        rsort($array);
+    print ("<h2>Matriz con valor eliminado</h2>");
+    print ("<p>Valor a eliminar: $valorEliminar</p>");
+    $existeValorEliminar = false;
+    foreach ($array as $indice => $valor) {
+        if ($valor == $valorEliminar) {
+            unset($array[$indice]);
+            $existeValorEliminar = true;
+        }
+    }
+    if ($existeValorEliminar) {
+        $array = array_values($array);
         print ("<pre>");
         print_r($array);
         print ("</pre>");
     } else {
-        print ("<p>No se ha solicitado ordenar la matriz</p>");
+        print ("<p>El valor indicado no se encuentra en la matriz</p>");
     }
 }
-print ("<form action='Ejercicio sin numero.html' method='post'>");
+print ("<form action='Ejercicio 6.html' method='post'>");
 print ("<input type='submit' value='Volver al formulario'>");
 print ("</form>");
 ?>
