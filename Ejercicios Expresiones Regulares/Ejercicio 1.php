@@ -26,7 +26,7 @@ function validarTexto($texto)
         print ('<p>4. La cadena <b>"' . $texto . '"</b> <span style="color: red">no</span> es una única palabra que contiene solamente caracteres ingleses</p>');
     }
 
-    if (preg_match('/^[a]*[e]*[i]*[o]*[u]*$/', $texto)) {
+    if (preg_match('/^[a]*[e]*[i]*[o]*[u]*$/', $texto) && $texto != "") {
         print ('<p>5. La cadena <b>"' . $texto . '"</b> es una cadena de vocales minúsculas sin acentuar en orden alfabético</p>');
     } else {
         print ('<p>5. La cadena <b>"' . $texto . '"</b> <span style="color: red">no</span> es una cadena de vocales minúsculas sin acentuar en orden alfabético</p>');
