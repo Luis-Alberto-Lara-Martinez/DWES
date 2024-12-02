@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("funcionesConexion.php");
 if (isset($_POST["enviar"])) {
     $existeUsuario = false;
@@ -20,6 +21,7 @@ if (isset($_POST["enviar"])) {
     }
 
     if ($existeUsuario) {
+        $_SESSION["usuario"] = $nombre;
         header("Refresh: 5; url=index.php");
         exit("<h1>Cargando aplicación...</h1>");
     } else {
