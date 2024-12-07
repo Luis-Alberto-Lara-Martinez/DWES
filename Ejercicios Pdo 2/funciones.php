@@ -23,7 +23,7 @@ function crearYConectarBD($nombreBD, $user, $password)
 function conectarBD($nombreBD, $user, $password)
 {
     try {
-        $conexion = new PDO("mysql:host=localhost;dbname=" . $nombreBD . "charset=utf8", $user, $password);
+        $conexion = new PDO("mysql:host=localhost;dbname=" . $nombreBD . ";charset=utf8", $user, $password);
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conexion;
     } catch (PDOException $error) {

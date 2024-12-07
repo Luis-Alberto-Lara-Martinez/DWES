@@ -5,8 +5,6 @@ session_start();
 if (isset($_SESSION["registrado"])) {
     header("Refresh: 5, url=inicio.php");
     exit("<h1>Ya estás registrado. Cargando app...</h1>");
-} else {
-    $_SESSION["registrado"] = "ok";
 }
 
 $conexion = crearYConectarBD("Agenda", "root", "");
@@ -35,6 +33,7 @@ if (isset($_POST["enviar"])) {
             }
         }
         if ($existeUsuario) {
+            $_SESSION["registrado"] = "ok";
             header("Refresh: 5; url=inicio.php");
             exit("<h1>Usuario encontrado. Cargando aplicación...</h1>");
         } else {
