@@ -11,30 +11,43 @@ if (isset($_SESSION["registrado"])) {
             $accion = "ordenarNombreDesc";
         } elseif (isset($_POST["ordenarApellidosAsc"])) {
             $accion = "ordenarApellidosAsc";
-        } else {
+        } elseif (isset($_POST["ordenarApellidosDesc"])) {
             $accion = "ordenarApellidosDesc";
+        } else {
+            $accion = "borrar";
         }
 
         switch ($accion) {
             case "ordenarNombreAsc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY nombre ASC, apellidos ASC");
+                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre ASC, apellidos ASC");
                 cargarRegistros($consulta);
                 break;
             case "ordenarNombreDesc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY nombre DESC, apellidos DESC");
+                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre DESC, apellidos DESC");
                 cargarRegistros($consulta);
                 break;
             case "ordenarApellidosAsc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos ASC, nombre ASC");
+                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
+                cargarRegistros($consulta);
+                break;
+            case "ordenarApellidosDesc":
+                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos DESC, nombre DESC");
                 cargarRegistros($consulta);
                 break;
             default:
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos DESC, nombre DESC");
-                cargarRegistros($consulta);
-                break;
+                if (isset($_POST["botonesBorrar"])) {
+                    foreach ($_POST["botonesBorrar"] as $value) {
+                        $conexion->query("DELETE FROM Persona WHERE id=" . $value);
+                    }
+                    header("Refresh: 5; url=borrar.php");
+                    exit("<p>Registros borrados exitosamente</p>");
+                } else {
+                    header("Refresh: 5; url=borrar.php");
+                    exit("<p style='color: red'>No se ha seleccionado ningún registro</p>");
+                }
         }
     } else {
-        $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos ASC, nombre ASC");
+        $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
         cargarRegistros($consulta);
     }
 } else {
@@ -51,9 +64,9 @@ function cargarRegistros($consulta)
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Insertar</title>
+        <title>Borrar</title>
         <style>
-            input[type="submit"] {
+            input[name*="ordenar"] {
                 border: none;
                 background: none;
                 cursor: pointer;
@@ -76,9 +89,10 @@ function cargarRegistros($consulta)
         if ($consulta->rowCount() > 0) {
             ?>
             <p>Listado completo de registros:</p>
-            <form action="listar.php" method="post">
+            <form action="borrar.php" method="post">
                 <table>
                     <tr>
+                        <th>Borrar</th>
                         <th><input type="submit" name="ordenarNombreAsc" value="↑">
                             Nombre
                             <input type="submit" name="ordenarNombreDesc" value="↓">
@@ -91,6 +105,7 @@ function cargarRegistros($consulta)
                     <?php
                     foreach ($consulta as $fila) {
                         echo "<tr>
+                        <td><input type='checkbox' name='botonesBorrar[]' value='" . $fila["id"] . "'></td>
                         <td>" . $fila["nombre"] . "</td>
                         <td>" . $fila["apellidos"] . "</td>
                         </tr>";
@@ -98,6 +113,9 @@ function cargarRegistros($consulta)
                     ?>
                 </table>
                 <input type="hidden" name="enviar">
+                <br />
+                <input type="submit" value="Borrar registro" name="borrar">
+                <input type="reset" value="Reiniciar formulario">
             </form>
             <?php
         } else {
