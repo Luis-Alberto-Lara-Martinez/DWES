@@ -36,11 +36,56 @@ if (isset($_SESSION["registrado"])) {
                 break;
             default:
                 if (isset($_POST["campo"])) {
-                    dejuijrij
+                    ?>
+                    <!DOCTYPE html>
+                    <html lang="en">
+
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Modificar</title>
+                    </head>
+
+                    <body>
+                        <a href="inicio.php">Volver a la página principal</a>
+                        <br /><br />
+                        <a href="modificar.php">Cambiar otro registro</a>
+                        <p>Modifique los datos que desee </p>
+                        <form action="modificar.php" method="post">
+                            <?php
+                            $consulta = $conexion->query("SELECT * FROM Persona WHERE id=" . $_POST["campo"]);
+                            foreach ($consulta as $fila) {
+                                echo "<label for='nombre'>Nombre:</label>
+                                    <input type='text' name='nombre' id='nombre' value='" . $fila["nombre"] . "'>
+                                    <br /><br />
+                                    <label for='apellidos'>Apellidos:</label>
+                                    <input type='text' name='apellidos' id='apellidos' value='" . $fila["apellidos"] . "'>
+                                    <br /><br />
+                                    <input type='hidden' name='id' value='" . $fila["id"] . "'>";
+                            }
+                            ?>
+                            <input type="submit" name="cambioRegistro" value="Actualizar">
+                            <input type="reset" value="Reiniciar formulario">
+                        </form>
+                    </body>
+
+                    </html>
+                    <?php
                 } else {
                     header("Refresh: 5; url=modificar.php");
                     exit("<p style='color: red'>No se ha seleccionado ningún registro</p>");
                 }
+        }
+    } elseif (isset($_POST["cambioRegistro"])) {
+        $consulta = $conexion->prepare("UPDATE Persona SET nombre = :nombre, apellidos = :apellidos WHERE id = :id");
+        $consulta->bindParam(":nombre", $_POST["nombre"]);
+        $consulta->bindParam(":apellidos", $_POST["apellidos"]);
+        $consulta->bindParam(":id", $_POST["id"]);
+        if ($consulta->execute()) {
+            echo "<a href='inicio.php'>Volver a la página principal</a>
+                <br /><br />
+                <a href='modificar.php'>Cambiar otro registro</a>
+                <p>Registro borrado correctamente</p>";
         }
     } else {
         $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
@@ -60,7 +105,7 @@ function cargarRegistros($consulta)
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Borrar</title>
+        <title>Modificar</title>
         <style>
             input[name*="ordenar"] {
                 border: none;

@@ -8,17 +8,6 @@ if (isset($_SESSION["registrado"])) {
 }
 
 $conexion = crearYConectarBD("Agenda", "root", "");
-$conexion->query("CREATE TABLE Persona(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    apellidos VARCHAR(50) NOT NULL
-);");
-$conexion->query("CREATE TABLE Usuarios(
-    usuario VARCHAR(50) PRIMARY KEY,
-    contrasena VARCHAR(50) NOT NULL
-);");
-$conexion->query("INSERT INTO Usuarios VALUES ('admin', 'admin')");
-
 if (isset($_POST["enviar"])) {
     $usuario = sanearDato($_POST["usuario"]);
     $contrasena = sanearDato($_POST["contrasena"]);

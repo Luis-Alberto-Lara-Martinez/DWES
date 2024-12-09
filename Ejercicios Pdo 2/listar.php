@@ -6,37 +6,18 @@ if (isset($_SESSION["registrado"])) {
     $conexion = conectarBD("Agenda", "root", "");
     if (isset($_POST["enviar"])) {
         if (isset($_POST["ordenarNombreAsc"])) {
-            $accion = "ordenarNombreAsc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre ASC, apellidos ASC");
         } elseif (isset($_POST["ordenarNombreDesc"])) {
-            $accion = "ordenarNombreDesc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre DESC, apellidos DESC");
         } elseif (isset($_POST["ordenarApellidosAsc"])) {
-            $accion = "ordenarApellidosAsc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
         } else {
-            $accion = "ordenarApellidosDesc";
-        }
-
-        switch ($accion) {
-            case "ordenarNombreAsc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY nombre ASC, apellidos ASC");
-                cargarRegistros($consulta);
-                break;
-            case "ordenarNombreDesc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY nombre DESC, apellidos DESC");
-                cargarRegistros($consulta);
-                break;
-            case "ordenarApellidosAsc":
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos ASC, nombre ASC");
-                cargarRegistros($consulta);
-                break;
-            default:
-                $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos DESC, nombre DESC");
-                cargarRegistros($consulta);
-                break;
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos DESC, nombre DESC");
         }
     } else {
-        $consulta = $conexion->query("SELECT nombre, apellidos FROM Persona ORDER BY apellidos ASC, nombre ASC");
-        cargarRegistros($consulta);
+        $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
     }
+    cargarRegistros($consulta);
 } else {
     header("Refresh: 5, url=login.php");
     exit("<h1>No estás registrado. Accediendo a iniciar sesión...</h1>");
