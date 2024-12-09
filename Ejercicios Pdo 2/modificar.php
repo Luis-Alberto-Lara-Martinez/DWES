@@ -6,76 +6,57 @@ if (isset($_SESSION["registrado"])) {
     $conexion = conectarBD("Agenda", "root", "");
     if (isset($_POST["enviar"])) {
         if (isset($_POST["ordenarNombreAsc"])) {
-            $accion = "ordenarNombreAsc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre ASC, apellidos ASC");
         } elseif (isset($_POST["ordenarNombreDesc"])) {
-            $accion = "ordenarNombreDesc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre DESC, apellidos DESC");
         } elseif (isset($_POST["ordenarApellidosAsc"])) {
-            $accion = "ordenarApellidosAsc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
         } elseif (isset($_POST["ordenarApellidosDesc"])) {
-            $accion = "ordenarApellidosDesc";
+            $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos DESC, nombre DESC");
         } else {
-            $accion = "modificar";
-        }
+            if (isset($_POST["campo"])) {
+                ?>
+                <!DOCTYPE html>
+                <html lang="en">
 
-        switch ($accion) {
-            case "ordenarNombreAsc":
-                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre ASC, apellidos ASC");
-                cargarRegistros($consulta);
-                break;
-            case "ordenarNombreDesc":
-                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY nombre DESC, apellidos DESC");
-                cargarRegistros($consulta);
-                break;
-            case "ordenarApellidosAsc":
-                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
-                cargarRegistros($consulta);
-                break;
-            case "ordenarApellidosDesc":
-                $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos DESC, nombre DESC");
-                cargarRegistros($consulta);
-                break;
-            default:
-                if (isset($_POST["campo"])) {
-                    ?>
-                    <!DOCTYPE html>
-                    <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Modificar</title>
+                </head>
 
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Modificar</title>
-                    </head>
-
-                    <body>
-                        <a href="inicio.php">Volver a la página principal</a>
-                        <br /><br />
-                        <a href="modificar.php">Cambiar otro registro</a>
-                        <p>Modifique los datos que desee </p>
-                        <form action="modificar.php" method="post">
-                            <?php
-                            $consulta = $conexion->query("SELECT * FROM Persona WHERE id=" . $_POST["campo"]);
-                            foreach ($consulta as $fila) {
-                                echo "<label for='nombre'>Nombre:</label>
+                <body>
+                    <a href="inicio.php">Volver a la página principal</a>
+                    <br /><br />
+                    <a href="modificar.php">Cambiar otro registro</a>
+                    <p>Modifique los datos que desee </p>
+                    <form action="modificar.php" method="post">
+                        <?php
+                        $consulta = $conexion->query("SELECT * FROM Persona WHERE id=" . $_POST["campo"]);
+                        foreach ($consulta as $fila) {
+                            echo "<label for='nombre'>Nombre:</label>
                                     <input type='text' name='nombre' id='nombre' value='" . $fila["nombre"] . "'>
                                     <br /><br />
                                     <label for='apellidos'>Apellidos:</label>
                                     <input type='text' name='apellidos' id='apellidos' value='" . $fila["apellidos"] . "'>
                                     <br /><br />
                                     <input type='hidden' name='id' value='" . $fila["id"] . "'>";
-                            }
-                            ?>
-                            <input type="submit" name="cambioRegistro" value="Actualizar">
-                            <input type="reset" value="Reiniciar formulario">
-                        </form>
-                    </body>
+                        }
+                        ?>
+                        <input type="submit" name="cambioRegistro" value="Actualizar">
+                        <input type="reset" value="Reiniciar formulario">
+                    </form>
+                </body>
 
-                    </html>
-                    <?php
-                } else {
-                    header("Refresh: 5; url=modificar.php");
-                    exit("<p style='color: red'>No se ha seleccionado ningún registro</p>");
-                }
+                </html>
+                <?php
+                exit;
+            } else {
+                header("Refresh: 5; url=modificar.php");
+                exit("<p style='color: red'>No se ha seleccionado ningún registro</p>");
+            }
         }
+        cargarRegistros($consulta);
     } elseif (isset($_POST["cambioRegistro"])) {
         $consulta = $conexion->prepare("UPDATE Persona SET nombre = :nombre, apellidos = :apellidos WHERE id = :id");
         $consulta->bindParam(":nombre", $_POST["nombre"]);
@@ -85,7 +66,7 @@ if (isset($_SESSION["registrado"])) {
             echo "<a href='inicio.php'>Volver a la página principal</a>
                 <br /><br />
                 <a href='modificar.php'>Cambiar otro registro</a>
-                <p>Registro borrado correctamente</p>";
+                <p>Registro actualizado correctamente</p>";
         }
     } else {
         $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");

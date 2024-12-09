@@ -9,7 +9,6 @@ if (isset($_SESSION["registrado"])) {
         $apellidos = sanearDato($_POST["apellidos"]);
         $query = "SELECT * FROM Persona";
         $condiciones = [];
-
         if ($nombre != "") {
             $condiciones[] = "nombre='" . $nombre . "'";
         }
@@ -19,38 +18,20 @@ if (isset($_SESSION["registrado"])) {
         if (count($condiciones) > 0) {
             $query .= " WHERE " . implode(' AND ', $condiciones);
         }
-
         $consulta = $conexion->query($query);
         cargarRegistros($consulta, $query);
     } else {
         if (isset($_POST["enviar"])) {
             $queryBase = preg_replace("/ORDER BY .*/", "", $_POST["query"]);
-
             if (isset($_POST["ordenarNombreAsc"])) {
-                $accion = "ordenarNombreAsc";
+                $query = $queryBase . " ORDER BY nombre ASC, apellidos ASC";
             } elseif (isset($_POST["ordenarNombreDesc"])) {
-                $accion = "ordenarNombreDesc";
+                $query = $queryBase . " ORDER BY nombre DESC, apellidos DESC";
             } elseif (isset($_POST["ordenarApellidosAsc"])) {
-                $accion = "ordenarApellidosAsc";
+                $query = $queryBase . " ORDER BY apellidos ASC, nombre ASC";
             } else {
-                $accion = "ordenarApellidosDesc";
+                $query = $queryBase . " ORDER BY apellidos DESC, nombre DESC";
             }
-
-            switch ($accion) {
-                case "ordenarNombreAsc":
-                    $query = $queryBase . " ORDER BY nombre ASC, apellidos ASC";
-                    break;
-                case "ordenarNombreDesc":
-                    $query = $queryBase . " ORDER BY nombre DESC, apellidos DESC";
-                    break;
-                case "ordenarApellidosAsc":
-                    $query = $queryBase . " ORDER BY apellidos ASC, nombre ASC";
-                    break;
-                default:
-                    $query = $queryBase . " ORDER BY apellidos DESC, nombre DESC";
-                    break;
-            }
-
             $consulta = $conexion->query($query);
             cargarRegistros($consulta, $query);
         } else {

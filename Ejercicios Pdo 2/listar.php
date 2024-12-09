@@ -17,14 +17,6 @@ if (isset($_SESSION["registrado"])) {
     } else {
         $consulta = $conexion->query("SELECT * FROM Persona ORDER BY apellidos ASC, nombre ASC");
     }
-    cargarRegistros($consulta);
-} else {
-    header("Refresh: 5, url=login.php");
-    exit("<h1>No estás registrado. Accediendo a iniciar sesión...</h1>");
-}
-
-function cargarRegistros($consulta)
-{
     ?>
     <!DOCTYPE html>
     <html lang="es">
@@ -91,4 +83,7 @@ function cargarRegistros($consulta)
 
     </html>
     <?php
+} else {
+    header("Refresh: 5, url=login.php");
+    exit("<h1>No estás registrado. Accediendo a iniciar sesión...</h1>");
 }

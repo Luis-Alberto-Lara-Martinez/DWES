@@ -4,20 +4,7 @@ session_start();
 
 if (isset($_SESSION["registrado"])) {
     if (isset($_POST["si"])) {
-        $conexion = conectarBD("Agenda", "root", "");
-        $conexion->query("DROP DATABASE Agenda");
-        $conexion->query("CREATE DATABASE Agenda");
-        $conexion->query("USE Agenda");
-        $conexion->query("CREATE TABLE Persona(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(50) NOT NULL,
-            apellidos VARCHAR(50) NOT NULL
-        );");
-        $conexion->query("CREATE TABLE Usuarios(
-            usuario VARCHAR(50) PRIMARY KEY,
-            contrasena VARCHAR(50) NOT NULL
-        );");
-        $conexion->query("INSERT INTO Usuarios VALUES ('admin', 'admin')");
+        $conexion = crearYConectarBD("Agenda", "root", "");
         header("Refresh: 5; url=inicio.php");
         exit("<p>Base de datos borrada correctamente</p>
             <p>Base de datos creada correctamente</p>
