@@ -60,5 +60,8 @@ class LibroAntiguo extends Libro
 echo "<h1>Lista de productos disponibles</h1>";
 $cd = new CD("La morena", "50€", "325 min");
 echo $cd;
-$libro = new Libro("El Quijote");
+$libro = new Libro("El Quijote", "39,99€", "523 páginas");
+echo $libro;
+$libroAntiguo = new LibroAntiguo("Antiguo", "24,99€", "534 páginas", "12/10/1978");
+echo $libroAntiguo;
 ?>
